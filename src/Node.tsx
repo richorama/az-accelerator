@@ -1,5 +1,6 @@
 import { DefaultButton, PrimaryButton } from '@fluentui/react';
 import React from 'react';
+import { isNoSubstitutionTemplateLiteral } from 'typescript';
 import { DecisionNode } from './model';
 import './Node.css'
 
@@ -13,9 +14,9 @@ export default class Node extends React.Component<IProps> {
 
   renderButton = (index:number) => {
     if (index === this.props.activeIndex){
-      return <PrimaryButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />
+      return <><PrimaryButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />{' '}</>
     }
-    return <DefaultButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />
+    return <><DefaultButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />{' '}</>
   }
 
   render() {
@@ -23,7 +24,7 @@ export default class Node extends React.Component<IProps> {
     if (node.question && (node.children?.length || 0) > 0) {
       return <div className="section">
         {node.question}
-        <br/>
+        <br/><br/>
         {node.children?.map((_,i) => this.renderButton(i))}
       </div>
     }
