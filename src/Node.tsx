@@ -1,16 +1,20 @@
-import { DefaultButton } from '@fluentui/react';
+import { DefaultButton, PrimaryButton } from '@fluentui/react';
 import React from 'react';
 import { DecisionNode } from './model';
 import './Node.css'
 
 interface IProps {
   node: DecisionNode
+  activeIndex: number
   onClick: (index:number) => void
 }
 
 export default class Node extends React.Component<IProps> {
 
   renderButton = (index:number) => {
+    if (index === this.props.activeIndex){
+      return <PrimaryButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />
+    }
     return <DefaultButton key={index} text={(this.props.node.answers || [])[index]} onClick={this.props.onClick.bind(null, index)} />
   }
 

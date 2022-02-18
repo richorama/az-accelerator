@@ -18,27 +18,23 @@ export default class App extends React.Component<IProps, IState> {
   }
 
   handleClick = (index: number, value: number) => {
-    console.log(`${index} : ${value}`)
-
     const decisions = [...this.state.decisions.filter((_, i) => i <= index), value]
-    console.log(decisions.join())
     this.setState({ decisions })
   }
 
-  renderNode = (index: number, remainingTree: DecisionNode) => {
-    return <Node key={index} node={remainingTree} onClick={value => this.handleClick(index, value)} />
+  renderNode = (index: number, remainingTree: DecisionNode, activeIndex: number) => {
+    return <Node activeIndex={activeIndex} key={index} node={remainingTree} onClick={value => this.handleClick(index, value)} />
   }
 
   render() {
     let { tree, decisions } = this.state
     return <div>
-      {this.renderNode(-1, tree)}
+      {this.renderNode(-1, tree, decisions.length === 0 ? -1 : decisions[0])}
       {
         decisions.map((i, counter) => {
           if (!tree.children) return null
           tree = tree.children[i]
-          console.log(tree)
-          return this.renderNode(counter, tree)
+          return this.renderNode(counter, tree, decisions[counter + 1])
         })
       }</div>
   }
